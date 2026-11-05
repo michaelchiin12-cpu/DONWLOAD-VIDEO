@@ -19,13 +19,14 @@ export async function GET(req) {
       return Response.json({ error: j.msg || 'Video tidak ditemukan' }, { status: 502 });
     }
 
+    const isHd = Boolean(j.data.hdplay);
     let videoUrl = j.data.hdplay || j.data.play;
     if (!videoUrl) {
       return Response.json({ error: 'Alamat video tidak tersedia' }, { status: 502 });
     }
     if (videoUrl.startsWith('/')) videoUrl = 'https://www.tikwm.com' + videoUrl;
 
-    return Response.json({ videoUrl });
+    return Response.json({ videoUrl, quality: isHd ? 'HD' : 'Biasa' });
   } catch (e) {
     return Response.json({ error: 'Layanan pengambil video tidak bisa dihubungi' }, { status: 502 });
   }

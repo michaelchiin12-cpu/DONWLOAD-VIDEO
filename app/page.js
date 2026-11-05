@@ -6,6 +6,28 @@ const LINE = /^\s*(\d+)\s*[.)\-:]?\s*(https?:\/\/\S+)/;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const MIN_GAP_MS = 1300; // jeda antar permintaan agar tidak kena batas kecepatan
 
+// Membaca resolusi asli video dari file yang sudah diunduh.
+function getResolution(blob) {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(blob);
+    const v = document.createElement('video');
+    const done = (val) => {
+      URL.revokeObjectURL(url);
+      resolve(val);
+    };
+    v.preload = 'metadata';
+    v.onloadedmetadata = () =>
+      done(v.videoWidth && v.videoHeight ? `${v.videoWidth}×${v.videoHeight}` : null);
+    v.onerror = () => done(null);
+    setTimeout(() => done(null), 8000);
+    v.src = url;
+  });
+}
+
+function formatSize(bytes) {
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
 function parseLinks(text) {
   const items = [];
   for (const line of text.split(/\r?\n/)) {
@@ -77,8 +99,10 @@ export default function Home() {
     const blob = await v.blob();
     if (blob.size < 1000) throw new Error('File kosong');
 
+    const res = await getResolution(blob);
     await saveFile(item.no, blob);
-    patch(i, { status: `Selesai (${item.no}.mp4)`, state: 'ok' });
+    const info = [j.quality, res, formatSize(blob.size)].filter(Boolean).join(' · ');
+    patch(i, { status: `Selesai (${item.no}.mp4)`, info, state: 'ok' });
   }
 
   async function run(list, indexes) {
@@ -162,6 +186,7 @@ export default function Home() {
                 <th>No</th>
                 <th>Link</th>
                 <th>Status</th>
+                <th>Kualitas</th>
               </tr>
             </thead>
             <tbody>
@@ -170,6 +195,7 @@ export default function Home() {
                   <td>{r.no}</td>
                   <td className="url">{r.url}</td>
                   <td className={r.state === 'ok' ? 'ok' : r.state === 'err' ? 'err' : ''}>{r.status}</td>
+                  <td>{r.info || '-'}</td>
                 </tr>
               ))}
             </tbody>
