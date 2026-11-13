@@ -86,3 +86,65 @@ th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line
 td.url { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
 .ok { color: var(--ok); }
 .err { color: var(--err); }
+
+/* ---------- Tab mode ---------- */
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab { flex: 1; padding: 10px 16px; font-weight: 600; }
+.tab.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+[hidden] { display: none !important; }
+
+/* ---------- Cek video ---------- */
+.wrap.wide { max-width: 1240px; }
+.muted { color: var(--muted); font-size: 0.85rem; }
+
+.chip {
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.chip.yes { color: #b45309; border-color: #f59e0b; }
+.chip.no { color: var(--muted); }
+
+.pager { display: flex; gap: 12px; align-items: center; justify-content: center; margin: 4px 0 16px; }
+
+.vgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.vcard {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.vcard.m-yes { border-color: #f59e0b; }
+.vcard.m-no { opacity: 0.75; }
+.vhead { width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.vframe { width: 100%; max-width: 325px; height: 740px; border: 0; border-radius: 8px; background: #000; }
+.vph {
+  width: 100%;
+  max-width: 325px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.vactions { width: 100%; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.vactions a { margin-left: auto; color: var(--brand); font-size: 0.9rem; text-decoration: none; }
+.mk { padding: 7px 12px; font-size: 0.9rem; }
+.mk.yes.on { background: #f59e0b; border-color: #f59e0b; color: #000; }
+.mk.no.on { background: var(--muted); border-color: var(--muted); color: var(--card); }

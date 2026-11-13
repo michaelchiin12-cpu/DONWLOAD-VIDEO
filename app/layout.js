@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Batch Downloader TikTok',
-  description: 'Download banyak video TikTok sekaligus dan rename otomatis sesuai nomor',
+  title: 'Batch TikTok - Download & Cek Video',
+  description: 'Download banyak video TikTok sekaligus, atau tampilkan semua video untuk dicek',
 };
 
 export default function RootLayout({ children }) {
